@@ -8,6 +8,21 @@ const AddEmployee = () => {
     
     const [employee, setEmployee] = useState({});
 
+    // Skills list
+    const skillsList = [
+        "Python",
+        "Java",
+        "SQL",
+        "Maven",
+        "SpringBoot",
+        "React",
+        "JavaScript",
+        "HTML/CSS",
+        "Git",
+        "Docker",
+        "Kubernetes"
+    ];
+
     const handleForm = (e) => {
         console.log(employee);
         sendDataToPostAPI(employee);
@@ -78,17 +93,26 @@ const AddEmployee = () => {
                 />
             </FormGroup>
             <FormGroup>
-                <Label for="skills">Skills (Comma Separated)</Label>
+                <Label for="skills">Skills</Label>
                 <Input
                     id="skills"
                     name="skills"
-                    placeholder="Enter skills here"
-                    type="textarea"
+                    type="select"
+                    multiple
                     required
                     onChange={(e) => {
-                        setEmployee({ ...employee, skills: e.target.value })
+                        const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+                        setEmployee({ ...employee, skills: selectedOptions.join(", ") })
                     }}
-                />
+                >
+                    <option value="">Select Skills</option>
+                    {skillsList.map((skill) => (
+                        <option key={skill} value={skill}>
+                            {skill}
+                        </option>
+                    ))}
+                </Input>
+                <small style={{color: "#666"}}>Hold Ctrl (Cmd on Mac) to select multiple skills</small>
                 <div className="my-3">
                     <Button type="submit" style={{ marginRight: 5 }} color="success">Submit</Button>
                     <Button type="reset" onClick={() => { setEmployee({ name: "", experience: "", companyName: "", skills: "" }) }} style={{ marginLeft: 5 }} color="warning">Reset</Button>
