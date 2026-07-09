@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      context: ./spring-boot-react-js/spring-boot-backend
+      dockerfile: Dockerfile
+    container_name: springboot-backend
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./spring-boot-react-js/react-js-frontend
+      dockerfile: Dockerfile
+    container_name: react-frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
